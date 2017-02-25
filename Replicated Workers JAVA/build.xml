@@ -1,0 +1,29 @@
+<project>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/eventqueue.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Event" value="Event"/>
+                <attribute name="EventsQueue" value="EventsQueue"/>
+                <attribute name="SolveEvents" value="SolveEvents"/>
+                <attribute name="EventsGenerator" value="EventsGenerator"/>
+                <attribute name="Main" value="Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run">
+        <java jar="build/jar/eventqueue.jar" fork="true"/>
+    </target>
+
+</project>
