@@ -1,0 +1,12 @@
+Dimensions of problem:
+
+-lines : 1000
+-columns : 2000
+-iterations : 1000
+
+Serial : 1m1.499s
+1 thread : 1m6.269s
+2 threads : 0m33.582s
+4 threads : 0m18.392s
+8 threads : 0m10.638s
+16 threads : 0m8.175s

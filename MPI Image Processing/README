@@ -1,0 +1,51 @@
+TEMA 3 APD
+VIJAEAC CRISTIAN-OCTAVIAN 335CB
+
+1)Arborele de acoperire
+	Radacina-radacina este automat considerata descoperita
+		-trimite fiecarui vecin un mesaj de tip 'S' pentru a vedea daca sunt copii lui
+		-asteapta primirea unui mesaj de la vecini:daca acesta estede tip 'Y' inseamna ca acei vecini sunt copii lui
+	Noduri-fiecare nod asteapta sa fie descoperit printr-un mesaj de tip 'S'
+	      -daca acesta nu a fost deja descoperit,inseamna ca primeste pentru prima oara mesaj de la parintele lui
+	      -trimite celorlalti vecini un mesaj de tip 'S' pentru a vedea daca sunt copii lui
+	      -se asteapta primirea mesajelor de la vecini ('Y') care confirma ca acel vecin este copilul lui
+	Frunza-daca ajungem intr-o frunza,ne intoarcem printr-un mesaj ecou 'Y' prin care semnalam ca acea frunza este copil
+2)Prelucrarea imaginii
+	Radacina-parseaza fisierul de imagini
+		-determinam ce tip de filtru aplicam acelei imagini
+		-pentru fieacare imagine,parseaza continutul
+		-construim matricea de pixeli
+		-bordam aceasta matrice
+		-impartim matricea in blocuri in functie de numarul de copii
+		-trimitem fiecarui copil blocul corespunzator linie cu linie precum si cele 2 linii sus-jos
+		-daca impartirea nu se face in mod egal,surplusul de linii va fi trimis ultimului copil spre a fi prelucrate
+		-daca nu exista surplus,trimitem acelasi nr de linii si ultimului copil
+		-se blocheaza in recv pana primeste toate blocurile de la toti copii
+		-uneste aceste blocuri si formeaza matricea imaginii prelucrate
+		-scrie in fisier si construieste noua imagine
+	Noduri-raman active pana primesc un mesaj de trimitere a statisticilor si apoi inchiderea('F')
+		-fiecare nod asteapta primirea datelor de la parintele lui
+		-imparte,din nou,blocul primit in blocuri de dimensiuni mai mici in functie de numarul de copii
+		-trimite noilor blocuri copiilor impreuna cu cele 2 linii ajutatoare si datele de care e nevoie pt prelucrare
+		-la fel ca si la radacina,daca numarul initial de linii nu se imparte exact la nr de copii,inseaman ca avem un surplus pe care
+		il vom trimite ultimului copil
+		-se asteapta apoi primirea blocurilor prelucrate de la copii
+		-se unesc aceste blocuri intr-unul singur si se trimite mai departe parintelui
+	Frunzele-primesc,la fel,datele si blocurile de la parinti
+		-in functie de filtrul ales,se modifica valorile din blocuri asa cum este specificat in enunt
+		-noul bloc format este trimis parintilor
+		-se incrementeaza numarul de linii prelucrate
+		
+3)Statisticile
+	Radacina-in momentul in care nu mai avem imagini de prelucrate,root-ul marcheaza acest lucru prin trimiterea unui mesaj de tip 'F'
+		tuturor copiilor
+		-asteapta primirea vectorului de statistici de la copii
+		-radacina isi actualizeaza propria valoare
+		-se scriu datele din acest vector intr-un fisier
+	Noduri-daca se primeste un mesaj de tip 'F' inseamna ca se cere trimiterea statisticilor si apoi intreruperea proceselor("break")
+	      -se anunta toti copii nodului de acest lucru
+	      -apoi se asteapta primirea statisticilor
+	      -verificam daca avem noduri intermediare sau frunze:-nodurile intermediare isi seteaza valoarea in vector la 0
+							  -frunzele isi actualizeaza valoarea cu nr de linii prelucrate
+	      -noul vector este trimis mai departe parintelui
+	Frunze-in momentul in care primesc un mesaj de tip 'F',acestea isi actualizeaza valoarea in vectorul de statistici cu nr de linii prelucrate
